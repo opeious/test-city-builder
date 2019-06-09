@@ -33,36 +33,35 @@ The mode can be switched using the buttons in the bottom panel
 I chose a Singleton and Events based architecture because it is easy to understand, makes the code modular. The singleton GameObject is already present in the scene (FinalScene) and pre configured. The singletons can be interfaced such that their variables can be saved and loaded to allow for persistence across scenes and sessions.
 
 ### DataManager
-![](https://raw.githubusercontent.com/opeious/test-city-builder/master/SampleImages/9.png)
-Initializes and parses the data from scriptable objects. Other managers and views can use the data manager to get the buildings data.
-
 ![](https://raw.githubusercontent.com/opeious/test-city-builder/master/SampleImages/10.png)
-All the buildings data is passed to the data manager as editor reference.
 
-![](https://raw.githubusercontent.com/opeious/test-city-builder/master/SampleImages/11.png)
-I chose ScriptableObjects as data containers because after creation editing the data to change some values becomes a trivial task.
+Initializes and parses the data from scriptable objects. Other managers and views can use the data manager to get the buildings data. All the buildings data is passed to the data manager as editor reference.
+
+![](https://raw.githubusercontent.com/opeious/test-city-builder/master/SampleImages/9.png)
+
+I chose ScriptableObjects as data containers because after creation editing the data to change some values becomes a trivial task. Each building data contains static data such production time, construction time, cost, footprint (size on grid) and the visual prefab to spawn on the grid location.
 
 If given more time, I would have preferred to have an editor script parse the data from a JSON or xml into a custom data class or scriptable object, for scalability.
 
 ### GameModeManager
-Stores the current mode of the game. When they mode is changed from the UI, it changes a manager variable. Triggering a OnGameModeChanged event. Other UIs and Managers can use this event to track game mode changes.
+Stores the current mode of the game. When they mode is changed from the UI it changes a manager variable, Triggering a OnGameModeChanged event. Other UIs and Managers can use this event to track game mode changes.
+
+### InputManager
+Just a simple class to detect mouse left clicks. Should be replaced with a Gesture/Touch extension to enable play on Mobile devices.
 
 ### GameboardManager
 Keeps track of the grid and does grid operations. Input manager forwards grid touches to the grid.
-
-### InputManager
-Just a simple class to detect mouse left clicks. Should be replaced with a Gesture/Touch extension to allow cross-platform play.
 
 ### ResourceManager
 Keeps track of the player inventory and all actions to player inventory are performed through resource manager functions. (Add, Remove, etc). Also triggers events when resources are added or removed for UIs and other managers.
 
 ### TooltipsManager
-Deals with player clicks and popups on building clicks. Handles the creation and deletion of tooltip UI elements. 
+Deals with player clicks and popups on building clicks. Handles the creation and deletion of tooltip UI elements. Has a reference of which prefab to spawn depending the game mode and current state of the building, also spawns the construction progress bars.
 
 ### EntityManager
 An Entity is anything that can be placed on the gameboard. A building an extension to an entity adding additional properties and functionality to the same.
 
-The entity manager keeps track of all the entities o n the gameboard. The entity placement controller in the manager allows the player to pickup and move around existing entities and place new entities.
+The entity manager keeps track of all the entities on the gameboard. The entity placement controller in the manager allows the player to pickup and move around existing entities and place new entities.
 
 It also checks if the position the player is trying to move a building to or trying to place a new building at is not out of bounds or currently occupied by another entity. (It is better to check only the existing entities on the scenes instead of every tile on the grid)
 
