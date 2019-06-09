@@ -216,7 +216,7 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_Children:
-  - {fileID: 1698294292}
+  - {fileID: 1049572962}
   - {fileID: 1526986955}
   - {fileID: 833279336}
   m_Father: {fileID: 0}
@@ -912,6 +912,59 @@ MonoBehaviour:
   WoodCounter: {fileID: 1347080642}
   GoldCounter: {fileID: 1644117202}
   SteelCounter: {fileID: 2042798462}
+--- !u!1 &1049572961
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1049572962}
+  - component: {fileID: 1049572963}
+  m_Layer: 5
+  m_Name: MarketList
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1049572962
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049572961}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1698294292}
+  m_Father: {fileID: 78219183}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1049572963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049572961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edf54c72dd22d2c4ab37017a2ad4a042, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MarketCardPrefab: {fileID: 2273566269638720414, guid: 1c4a308fc336f2b4c89f43423c577021,
+    type: 3}
+  ListContainer: {fileID: 1146977621}
+  marketGameObject: {fileID: 1698294291}
 --- !u!1 &1146977621
 GameObject:
   m_ObjectHideFlags: 0
@@ -1822,7 +1875,6 @@ GameObject:
   - component: {fileID: 1698294294}
   - component: {fileID: 1698294293}
   - component: {fileID: 1698294295}
-  - component: {fileID: 1698294296}
   m_Layer: 5
   m_Name: BuyScrollList
   m_TagString: Untagged
@@ -1843,13 +1895,13 @@ RectTransform:
   m_Children:
   - {fileID: 1551239068}
   - {fileID: 1815256395}
-  m_Father: {fileID: 78219183}
+  m_Father: {fileID: 1049572962}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 242, y: 0}
-  m_SizeDelta: {x: 484, y: -140}
+  m_AnchoredPosition: {x: -668, y: 0}
+  m_SizeDelta: {x: 484, y: 840}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1698294293
 MonoBehaviour:
@@ -1920,21 +1972,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &1698294296
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1698294291}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: edf54c72dd22d2c4ab37017a2ad4a042, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MarketCardPrefab: {fileID: 2273566269638720414, guid: 1c4a308fc336f2b4c89f43423c577021,
-    type: 3}
-  ListContainer: {fileID: 1146977621}
 --- !u!1 &1735532840
 GameObject:
   m_ObjectHideFlags: 0

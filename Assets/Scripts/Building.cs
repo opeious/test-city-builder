@@ -16,7 +16,7 @@ public enum BuildingState {
 public class BuildingData : EntityData
 {
     public BuildingType type;
-    public BuildingState state;
+    public BuildingState state = BuildingState.CONSTRUCTION;
 
     public ResourceTypes producerType;
 

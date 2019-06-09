@@ -11,9 +11,76 @@ public class EntityManager : MonoBehaviour
     public GameObject GameboardEntitiesContainer;
 
     #region Entity Placement Controller
+    
+    public delegate void Action();
+    public static event Action OnEPCModeChanged;
+    public static void RaiseEPCModeChanged() { if (OnEPCModeChanged != null) OnEPCModeChanged();}
+
     public GameObject EntityPlacementControllerPrefab;
 
     private EntityPlacementController _entityPlacementController;
+
+    private EntityPlacementControllerMode _epcMode = EntityPlacementControllerMode.BUY;
+
+    public EntityPlacementControllerMode EPCMode {
+        get {
+            return _epcMode;
+        } set {
+            _epcMode = value;
+            RaiseEPCModeChanged();
+        }
+    }
+
+    public GameObject cursorObj;
+
+    public EntityData tryPurchaseMarketCard;
+
+    public void OnSelectMarketCard(MarketCard marketCard) {
+        if(cursorObj != null) {
+            Destroy(cursorObj);
+        }
+        cursorObj = Instantiate(marketCard.CardEntityData.visualPrefab);
+        tryPurchaseMarketCard = marketCard.CardEntityData;
+    }
+
+    public bool IsPurchaseActive() {
+        return tryPurchaseMarketCard != null;
+    }
+
+    private void Update() {
+        if(cursorObj != null) {
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var point = ray.origin + (ray.direction * 20f);
+            cursorObj.transform.localScale = new Vector3(0.5f,0.5f,0.5f);
+            cursorObj.transform.position = point;
+        }
+    }
+
+    private void Start() {
+        if(DataManager.Instance.LoadedEntitiesData[0] is BuildingData) {
+            PlaceNewBuildingAt(DataManager.Instance.LoadedEntitiesData[0] as BuildingData, Vector2Int.one);
+        }
+    }
+
+    public void BuyModeEPCGridTouch(Vector2Int gridXY) {
+        if(tryPurchaseMarketCard is BuildingData) {
+            var data = tryPurchaseMarketCard as BuildingData;
+
+            if(IsValidGridPositionForFootprint(gridXY, data.footprint)) {
+                PlaceNewBuildingAt(data, gridXY);
+                CancelCurrentPurchase();
+            }
+        }
+    }
+
+    public void CancelCurrentPurchase() {
+        if(cursorObj != null) {
+            Destroy(cursorObj);
+        }
+        if(tryPurchaseMarketCard != null) {
+            tryPurchaseMarketCard = null;
+        }
+    }
 
     public void InteractWithEntityPlacementController(Entity entity) {
         if(_entityPlacementController == null ) {
@@ -22,6 +89,7 @@ public class EntityManager : MonoBehaviour
                 if(buildingEntity.data.state == BuildingState.CONSTRUCTION) {
                     return;
                 }
+                EPCMode = EntityPlacementControllerMode.MOVE;
                 SpawnEntityPlacementController();
                 _entityPlacementController.footprint = buildingEntity.data.footprint;
                 _entityPlacementController.PlaneMeshRenderer.sharedMaterial.SetInt("_SelectedCellX", _entityPlacementController.footprint.y - 1);
@@ -57,20 +125,17 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public bool IsValidEntityPlaceControllerPosition(Vector2Int gridXY) {
+    public bool IsValidGridPositionForFootprint(Vector2Int gridXY, Vector2Int footprint) {
         bool retVal = true;
-        if(_entityPlacementController == null) {
-            return false;
-        }
         foreach (var entity in entities)
         {
             if(entity is Building && retVal) {
                 var data = (entity as Building).data;
                 
                 int currentCheckX, currentCheckY;
-                for(int i = 0; i < _entityPlacementController.footprint.y && retVal; i++) {
+                for(int i = 0; i < footprint.y && retVal; i++) {
                     currentCheckX = gridXY.x + i;
-                    for(int j = 0; j < _entityPlacementController.footprint.x; j++) {
+                    for(int j = 0; j < footprint.x; j++) {
                         currentCheckY = gridXY.y + j;
                         
                         if(entity.GridPosition.x <= currentCheckX && entity.GridPosition.x + data.footprint.y > currentCheckX) {
@@ -86,6 +151,15 @@ public class EntityManager : MonoBehaviour
                 }
             }
         }
+        return retVal;
+    }
+
+    public bool IsValidEntityPlaceControllerPosition(Vector2Int gridXY) {
+        bool retVal = true;
+        if(_entityPlacementController == null) {
+            return false;
+        }
+        IsValidGridPositionForFootprint(gridXY, _entityPlacementController.footprint);
         return retVal;
     }
 
@@ -116,6 +190,7 @@ public class EntityManager : MonoBehaviour
     }
 
     public void RemoveEntityPlacementController() {
+        EPCMode = EntityPlacementControllerMode.BUY;
         if(_entityPlacementController != null) {
             Destroy(_entityPlacementController.gameObject);
         }
@@ -127,13 +202,9 @@ public class EntityManager : MonoBehaviour
         entities = new List<Entity>();
 
         GameModeManager.OnGameModeChanged += CancelEntityPlacementController;
+        GameModeManager.OnGameModeChanged += CancelCurrentPurchase;
     }
 
-    private void Start() {
-        if(DataManager.Instance.LoadedEntitiesData[0] is BuildingData) {
-            PlaceNewBuildingAt(DataManager.Instance.LoadedEntitiesData[0] as BuildingData, Vector2Int.one);
-        }
-    }
 
     private void PlaceNewBuildingAt(BuildingData buildingData, Vector2Int gridXY) {
         var go = new GameObject();

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class MarketCard : MonoBehaviour {
     
@@ -21,11 +22,46 @@ public class MarketCard : MonoBehaviour {
     public GameObject ProductionTimeContainer;
     public GameObject ProductionAutomaticProducerImage;
 
+    public MarketView parentView;
+    
+    private Dictionary<ResourceTypes, int> ResourceCosts;
+
+    public EntityData CardEntityData;
+
+    public void RefreshAffordable() {
+        bool affordable = true;
+        if(ResourceCosts != null && ResourceCosts.Count > 0) {
+            foreach (var resourceCost in ResourceCosts)
+            {
+                if(!ResourceManager.Instance.CanSpendResource(resourceCost.Key, resourceCost.Value))
+                {
+                    affordable = false;
+                    break;
+                }
+            }
+        }
+        
+        var buttonComp = gameObject.GetComponent<Button>();
+        buttonComp.interactable = affordable;
+    }
+
+    public void OnSelectThisCard() {
+        parentView.SelectedMarketCard = this;
+        ResourceManager.Instance.AddToPlayerResources(ResourceTypes.GOLD, 100);
+    }
+
     public void Setup(EntityData entityData) {
+        CardEntityData = entityData;
+        ResourceCosts = new Dictionary<ResourceTypes, int>();
+        
         if(entityData is BuildingData) {
             var data = entityData as BuildingData;
 
             EntityName.text = data.entityName;
+
+            ResourceCosts.Add(ResourceTypes.GOLD, data.goldCost);
+            ResourceCosts.Add(ResourceTypes.WOOD, data.woodCost);
+            ResourceCosts.Add(ResourceTypes.STEEL, data.steelCost);
 
             GoldCost.text = data.goldCost + "";
             WoodCost.text = data.woodCost + "";
@@ -56,6 +92,7 @@ public class MarketCard : MonoBehaviour {
                     WoodProduce.text = data.productionQuantity + "";
                 }
             }
+            RefreshAffordable();
         }
     }
 }

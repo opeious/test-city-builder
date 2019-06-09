@@ -16,7 +16,7 @@ public class GameModeManager : MonoBehaviour
 
     public static GameModeManager Instance;
 
-    private GameMode _currentMode = GameMode.BUILD;
+    private GameMode _currentMode = GameMode.REGULAR;
 
     public GameMode CurrentMode {
         get {

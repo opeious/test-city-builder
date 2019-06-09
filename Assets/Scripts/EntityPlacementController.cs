@@ -13,8 +13,6 @@ public class EntityPlacementController : MonoBehaviour
 
     public MeshRenderer PlaneMeshRenderer;
 
-    public EntityPlacementControllerMode CurrentMode;
-
     public GameObject attachedEntity;
 
     public Vector2Int OriginalPosition;

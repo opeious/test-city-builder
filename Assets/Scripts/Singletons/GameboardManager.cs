@@ -24,12 +24,20 @@ public class GameboardManager : MonoBehaviour
                 entityTouched.OnTouch();
             }
             else {
-                EntityManager.Instance.InteractWithEntityPlacementController(entityTouched);
+                if(EntityManager.Instance.IsPurchaseActive()) {
+                    
+                } else {
+                    EntityManager.Instance.InteractWithEntityPlacementController(entityTouched);
+                }
             }
         } else {
             if(GameModeManager.Instance.CurrentMode == GameMode.BUILD) {
-                if(EntityManager.Instance.IsValidEntityPlaceControllerPosition(gridXY)) {   
-                    EntityManager.Instance.MoveEntityPlaceControllerTo(gridXY);
+                if(!EntityManager.Instance.IsPurchaseActive()) {
+                    if(EntityManager.Instance.IsValidEntityPlaceControllerPosition(gridXY)) {   
+                        EntityManager.Instance.MoveEntityPlaceControllerTo(gridXY);
+                    }
+                } else {
+                    EntityManager.Instance.BuyModeEPCGridTouch(gridXY);
                 }
             } else {
                 TooltipsManager.Instance.RemoveActiveTooltip();
