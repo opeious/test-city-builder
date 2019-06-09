@@ -31,6 +31,8 @@ public class GameboardManager : MonoBehaviour
                 if(EntityManager.Instance.IsValidEntityPlaceControllerPosition(gridXY)) {   
                     EntityManager.Instance.MoveEntityPlaceControllerTo(gridXY);
                 }
+            } else {
+                TooltipsManager.Instance.RemoveActiveTooltip();
             }
         }
     }

@@ -41,6 +41,8 @@ public class ProgressBar : MonoBehaviour
 
     void UpdateProgressVisual() {
         var progress = ((_currentValue - _startValue)/_finishValue);
-        foregroundProgressTransform.sizeDelta = new Vector2(maxPercentWidth * progress,foregroundProgressTransform.sizeDelta.y);
+        if(foregroundProgressTransform != null) {
+            foregroundProgressTransform.sizeDelta = new Vector2(maxPercentWidth * progress,foregroundProgressTransform.sizeDelta.y);
+        }
     }
 }

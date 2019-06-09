@@ -130,19 +130,20 @@ public class EntityManager : MonoBehaviour
     }
 
     private void Start() {
-        foreach (var singleStartupData in DataManager.Instance.startupEntityData)
-        {
-            if(singleStartupData is BuildingData) {
-                var go = new GameObject();
-                var goEntityComp =  go.AddComponent<Building>();
-                goEntityComp.GridPosition = Vector2Int.one;
-                goEntityComp.data = singleStartupData as BuildingData;
-                SpawnBuildingVisual(goEntityComp, goEntityComp.GridPosition);
-                goEntityComp.Setup();
-                entities.Add(goEntityComp);
-                SetLayerRecursive(go, GameboardEntitiesContainer.layer);
-            }
+        if(DataManager.Instance.LoadedEntitiesData[0] is BuildingData) {
+            PlaceNewBuildingAt(DataManager.Instance.LoadedEntitiesData[0] as BuildingData, Vector2Int.one);
         }
+    }
+
+    private void PlaceNewBuildingAt(BuildingData buildingData, Vector2Int gridXY) {
+        var go = new GameObject();
+        var goEntityComp =  go.AddComponent<Building>();
+        goEntityComp.GridPosition = gridXY;
+        goEntityComp.data = buildingData as BuildingData;
+        SpawnBuildingVisual(goEntityComp, goEntityComp.GridPosition);
+        goEntityComp.Setup();
+        entities.Add(goEntityComp);
+        SetLayerRecursive(go, GameboardEntitiesContainer.layer);
     }
 
     private void SpawnBuildingVisual(Building entity, Vector2Int gridXY) {

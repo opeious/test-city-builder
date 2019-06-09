@@ -8,12 +8,7 @@ public class DataManager : MonoBehaviour
     
     public List<BuildingDataScriptableObject> BuildingsData;
 
-    //Remove this jsut for testing
-    public List<EntityData> startupEntityData;
-
-    private List<EntityData> LoadedEntitiesData;
-
-    public GameObject benchPrefab;
+    public List<EntityData> LoadedEntitiesData;
 
     private void Awake() {
         Instance = this;
@@ -36,10 +31,6 @@ public class DataManager : MonoBehaviour
 
             LoadedEntitiesData.Add(tempData);
         }
-
-        //Fake Setup TODO: if time permits auto-save and auto-load this
-        startupEntityData = new List<EntityData>();
-        startupEntityData.Add(LoadedEntitiesData[1]);
     }
 
     private void OnDestroy() {

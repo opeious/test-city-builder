@@ -10,12 +10,18 @@ public class ActiveTooltip : BuildingTooltip
 
     public override void Setup() {
         if(building != null) {
+            nameTextField.text = building.data.entityName;
+
             if(building.data.type == BuildingType.DECORATION) {
                 progressBar.gameObject.SetActive(false);
                 startProductionButton.gameObject.SetActive(false);
             } else if (building.data.type == BuildingType.PRODUCER_AUTOMATIC) {
                 StartProductionRefresh();
             } else if (building.data.type == BuildingType.PRODUCER_ACTIVATIVE) {
+                if(building.ProducingAtTheMoment) {
+                    StartProductionRefresh();
+                    building.OnBuildingProductionComplete += OnProductionComplete;
+                }
                 startProductionButton.onClick.AddListener(() => {
                     if(!building.ProducingAtTheMoment) {
                         building.OnBuildingProductionComplete += OnProductionComplete;
