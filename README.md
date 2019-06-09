@@ -3,11 +3,13 @@
 
 ## Features:
 ###Regular Mode
+
 ![](https://raw.githubusercontent.com/opeious/test-city-builder/master/SampleImages/1.png) ![](https://raw.githubusercontent.com/opeious/test-city-builder/master/SampleImages/2.png) ![](https://raw.githubusercontent.com/opeious/test-city-builder/master/SampleImages/5.png)
 
 Player can select a building by clicking on it and see a building name on top of it and current production progress. (or can start a new production if no production is running)
 
 ###Build Mode
+
 ![](https://raw.githubusercontent.com/opeious/test-city-builder/master/SampleImages/8.png)
 ![](https://raw.githubusercontent.com/opeious/test-city-builder/master/SampleImages/3.png)
 
