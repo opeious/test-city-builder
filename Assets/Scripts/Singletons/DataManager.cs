@@ -18,7 +18,7 @@ public class DataManager : MonoBehaviour
         {
             var tempData = new BuildingData();
             
-            tempData.entityName = singleBuildingData.name;
+            tempData.entityName = singleBuildingData.entityName;
             tempData.footprint = singleBuildingData.footprint;
             tempData.visualPrefab = singleBuildingData.visualPrefab;
 
@@ -28,6 +28,9 @@ public class DataManager : MonoBehaviour
             tempData.productionQuantity = singleBuildingData.productionQuantity;
             tempData.productionTime = singleBuildingData.productionTime;
             tempData.constructionTime = singleBuildingData.constructionTime;
+            tempData.goldCost = singleBuildingData.goldCost;
+            tempData.woodCost = singleBuildingData.woodCost;
+            tempData.steelCost = singleBuildingData.steelCost;
 
             LoadedEntitiesData.Add(tempData);
         }

@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 751b016ea10ea024fb9477c9625f6790, type: 3}
   m_Name: SteelFactory
   m_EditorClassIdentifier: 
-  entityName: SteelFactory
+  entityName: Steel Factory
   footprint: {x: 3, y: 3}
   visualPrefab: {fileID: 5544763611581036915, guid: 16515dd91ebb84b3a8f20dc29c23264f,
     type: 3}
   type: 2
   state: 0
   producerType: 1
+  productionQuantity: 10
+  productionTime: 10
+  constructionTime: 10
+  goldCost: 150
+  woodCost: 100
+  steelCost: 0

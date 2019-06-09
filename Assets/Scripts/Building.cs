@@ -25,6 +25,10 @@ public class BuildingData : EntityData
     public float productionTime = 10f;
 
     public float constructionTime = 2f;
+    
+    public int goldCost;
+    public int woodCost;
+    public int steelCost;
 }
 
 public class Building : Entity {

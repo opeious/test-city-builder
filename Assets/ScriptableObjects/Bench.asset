@@ -21,4 +21,7 @@ MonoBehaviour:
   producerType: 0
   productionQuantity: 10
   productionTime: 10
-  constructionTime: 2
+  constructionTime: 10
+  goldCost: 150
+  woodCost: 0
+  steelCost: 50
