@@ -2950,7 +2950,7 @@ PrefabInstance:
         type: 3}
       propertyPath: BuildingsData.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: f796be56054328b4c804b4278d2a86b8,
+      objectReference: {fileID: 11400000, guid: edf2e781a58b7bd43bc48099460f8a5f,
         type: 2}
     - target: {fileID: 3141435879512139439, guid: 6a69a7be82b594649babed77b7df67c0,
         type: 3}
@@ -2962,13 +2962,13 @@ PrefabInstance:
         type: 3}
       propertyPath: BuildingsData.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: edf2e781a58b7bd43bc48099460f8a5f,
+      objectReference: {fileID: 11400000, guid: 42afe3cbdbd882a4abae6ac3aef89d46,
         type: 2}
     - target: {fileID: 3141435879512139439, guid: 6a69a7be82b594649babed77b7df67c0,
         type: 3}
       propertyPath: BuildingsData.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 42afe3cbdbd882a4abae6ac3aef89d46,
+      objectReference: {fileID: 11400000, guid: f796be56054328b4c804b4278d2a86b8,
         type: 2}
     - target: {fileID: 3141435879512139439, guid: 6a69a7be82b594649babed77b7df67c0,
         type: 3}

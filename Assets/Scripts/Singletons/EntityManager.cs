@@ -31,7 +31,7 @@ public class EntityManager : MonoBehaviour
         }
     }
 
-    public GameObject cursorObj;
+    private GameObject cursorObj;
 
     public EntityData tryPurchaseMarketCard;
 
@@ -58,7 +58,7 @@ public class EntityManager : MonoBehaviour
 
     private void Start() {
         if(DataManager.Instance.LoadedEntitiesData[0] is BuildingData) {
-            PlaceNewBuildingAt(DataManager.Instance.LoadedEntitiesData[0] as BuildingData, Vector2Int.one);
+            PlaceNewBuildingAt(DataManager.Instance.LoadedEntitiesData[0] as BuildingData, Vector2Int.zero);
         }
     }
 

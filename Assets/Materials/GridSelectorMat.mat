@@ -64,15 +64,15 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 1
     - _GridSize: 3
-    - _GridSizeX: 1
-    - _GridSizeY: 1
+    - _GridSizeX: 2
+    - _GridSizeY: 2
     - _LineSize: 0.075
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _SelectCell: 1
-    - _SelectedCellX: 0
+    - _SelectedCellX: 1
     - _SelectedCellY: 0
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
