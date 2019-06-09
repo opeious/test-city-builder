@@ -67,6 +67,9 @@ public class EntityManager : MonoBehaviour
             var data = tryPurchaseMarketCard as BuildingData;
 
             if(IsValidGridPositionForFootprint(gridXY, data.footprint)) {
+                ResourceManager.Instance.RemoveFromPlayerResources(ResourceTypes.GOLD, data.goldCost);
+                ResourceManager.Instance.RemoveFromPlayerResources(ResourceTypes.WOOD, data.woodCost);
+                ResourceManager.Instance.RemoveFromPlayerResources(ResourceTypes.STEEL, data.steelCost);
                 PlaceNewBuildingAt(data, gridXY);
                 CancelCurrentPurchase();
             }
@@ -159,7 +162,7 @@ public class EntityManager : MonoBehaviour
         if(_entityPlacementController == null) {
             return false;
         }
-        IsValidGridPositionForFootprint(gridXY, _entityPlacementController.footprint);
+        retVal = IsValidGridPositionForFootprint(gridXY, _entityPlacementController.footprint);
         return retVal;
     }
 

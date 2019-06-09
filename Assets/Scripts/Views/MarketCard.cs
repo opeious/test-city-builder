@@ -47,7 +47,6 @@ public class MarketCard : MonoBehaviour {
 
     public void OnSelectThisCard() {
         parentView.SelectedMarketCard = this;
-        ResourceManager.Instance.AddToPlayerResources(ResourceTypes.GOLD, 100);
     }
 
     public void Setup(EntityData entityData) {
