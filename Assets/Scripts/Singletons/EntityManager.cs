@@ -10,6 +10,77 @@ public class EntityManager : MonoBehaviour
 
     public GameObject GameboardEntitiesContainer;
 
+    private void Awake() {
+        Instance = this;
+        entities = new List<Entity>();
+
+        GameModeManager.OnGameModeChanged += CancelEntityPlacementController;
+        GameModeManager.OnGameModeChanged += CancelCurrentPurchase;
+    }
+
+
+    private void PlaceNewBuildingAt(BuildingData buildingData, Vector2Int gridXY) {
+        var go = new GameObject();
+        var goEntityComp =  go.AddComponent<Building>();
+        goEntityComp.GridPosition = gridXY;
+        goEntityComp.data = buildingData as BuildingData;
+        SpawnBuildingVisual(goEntityComp, goEntityComp.GridPosition);
+        goEntityComp.Setup();
+        entities.Add(goEntityComp);
+        SetLayerRecursive(go, GameboardEntitiesContainer.layer);
+    }
+
+    private void SpawnBuildingVisual(Building entity, Vector2Int gridXY) {
+            var data = entity.data;
+            
+            if(entity.VisualPrefab == null) {
+                entity.VisualPrefab = Instantiate(data.visualPrefab);
+            }
+
+            entity.gameObject.name = data.visualPrefab.name;
+            entity.gameObject.transform.parent = GameboardEntitiesContainer.transform;
+            entity.VisualPrefab.transform.parent = entity.gameObject.transform;
+
+            float entityX = Gameboard.SQUARE_SIZE * gridXY.x;
+            float entityZ = Gameboard.SQUARE_SIZE * gridXY.y * -1;
+
+            entity.gameObject.transform.position = new Vector3(entityX, 0f, entityZ);
+    }
+
+    public Entity ReturnEntityAt(Vector2Int checkPos) {
+        foreach (var entity in entities)
+        {
+            if(entity is Building) {
+                var data = (entity as Building).data;
+                
+                if(entity.GridPosition.x <= checkPos.x && entity.GridPosition.x + data.footprint.y > checkPos.x) {
+                    if(entity.GridPosition.y <= checkPos.y && entity.GridPosition.y + data.footprint.x > checkPos.y) {
+                        return entity;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public Entity CheckEntityTouched(Vector2Int gridTouch) {
+        return ReturnEntityAt(gridTouch);
+    }
+
+    private void SetLayerRecursive(GameObject go, int newLayer) {
+        go.layer = newLayer;
+        foreach (var child in go.transform)
+        {
+            SetLayerRecursive((child as Transform).gameObject, newLayer);
+        }
+    }
+
+    private void OnDestroy() {
+        Instance = null;
+        GameModeManager.OnGameModeChanged -= CancelEntityPlacementController;
+    }
+
+    
     #region Entity Placement Controller
     
     public delegate void Action();
@@ -199,74 +270,4 @@ public class EntityManager : MonoBehaviour
         }
     }
     #endregion
-
-    private void Awake() {
-        Instance = this;
-        entities = new List<Entity>();
-
-        GameModeManager.OnGameModeChanged += CancelEntityPlacementController;
-        GameModeManager.OnGameModeChanged += CancelCurrentPurchase;
-    }
-
-
-    private void PlaceNewBuildingAt(BuildingData buildingData, Vector2Int gridXY) {
-        var go = new GameObject();
-        var goEntityComp =  go.AddComponent<Building>();
-        goEntityComp.GridPosition = gridXY;
-        goEntityComp.data = buildingData as BuildingData;
-        SpawnBuildingVisual(goEntityComp, goEntityComp.GridPosition);
-        goEntityComp.Setup();
-        entities.Add(goEntityComp);
-        SetLayerRecursive(go, GameboardEntitiesContainer.layer);
-    }
-
-    private void SpawnBuildingVisual(Building entity, Vector2Int gridXY) {
-            var data = entity.data;
-            
-            if(entity.VisualPrefab == null) {
-                entity.VisualPrefab = Instantiate(data.visualPrefab);
-            }
-
-            entity.gameObject.name = data.visualPrefab.name;
-            entity.gameObject.transform.parent = GameboardEntitiesContainer.transform;
-            entity.VisualPrefab.transform.parent = entity.gameObject.transform;
-
-            float entityX = Gameboard.SQUARE_SIZE * gridXY.x;
-            float entityZ = Gameboard.SQUARE_SIZE * gridXY.y * -1;
-
-            entity.gameObject.transform.position = new Vector3(entityX, 0f, entityZ);
-    }
-
-    public Entity ReturnEntityAt(Vector2Int checkPos) {
-        foreach (var entity in entities)
-        {
-            if(entity is Building) {
-                var data = (entity as Building).data;
-                
-                if(entity.GridPosition.x <= checkPos.x && entity.GridPosition.x + data.footprint.y > checkPos.x) {
-                    if(entity.GridPosition.y <= checkPos.y && entity.GridPosition.y + data.footprint.x > checkPos.y) {
-                        return entity;
-                    }
-                }
-            }
-        }
-        return null;
-    }
-
-    public Entity CheckEntityTouched(Vector2Int gridTouch) {
-        return ReturnEntityAt(gridTouch);
-    }
-
-    private void SetLayerRecursive(GameObject go, int newLayer) {
-        go.layer = newLayer;
-        foreach (var child in go.transform)
-        {
-            SetLayerRecursive((child as Transform).gameObject, newLayer);
-        }
-    }
-
-    private void OnDestroy() {
-        Instance = null;
-        GameModeManager.OnGameModeChanged -= CancelEntityPlacementController;
-    }
 }
